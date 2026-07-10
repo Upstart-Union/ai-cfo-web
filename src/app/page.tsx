@@ -2,6 +2,8 @@ import Navbar from "@/components/common/Navbar";
 import UploadCard from "@/components/home/UploadCard";
 import FinancialOverview from "@/components/home/FinancialOverview";
 
+import Charts from "@/components/charts/Charts";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-slate-100">
@@ -12,6 +14,8 @@ export default function Home() {
         <UploadCard />
 
         <FinancialOverview />
+
+        <Charts />
 
       </div>
     </main>
