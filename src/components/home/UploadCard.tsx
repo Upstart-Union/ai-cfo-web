@@ -15,7 +15,7 @@ export default function UploadCard() {
           Upload a CSV or Excel file to generate financial insights.
         </p>
 
-        <div className="mt-8 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-12 transition hover:border-blue-500">
+        <div className="mt-6 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 transition hover:border-blue-500">
 
           <div className="flex flex-col items-center">
 
@@ -33,7 +33,7 @@ export default function UploadCard() {
             </p>
 
             <button
-              className="mt-6 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700"
+              className="mt-5 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700"
             >
               Choose File
             </button>
