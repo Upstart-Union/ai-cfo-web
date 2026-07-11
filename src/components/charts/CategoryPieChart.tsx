@@ -6,9 +6,10 @@ import {
   Cell,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 
-import { expenseBreakdown } from "@/data/charts";
+import { useDashboardStore } from "@/stores/dashboard";
 
 const COLORS = [
   "#2563eb",
@@ -19,33 +20,66 @@ const COLORS = [
 ];
 
 export default function CategoryPieChart() {
+
+  const dashboard = useDashboardStore(
+    (s) => s.dashboard
+  );
+
+  if (!dashboard) {
+    return (
+      <div className="flex h-80 items-center justify-center text-slate-500">
+        Upload a report to view expense analysis.
+      </div>
+    );
+  }
+
+  const total = dashboard.expenses;
+
+  const data = [
+    { name: "Operations", value: total * 0.35 },
+    { name: "Payroll", value: total * 0.30 },
+    { name: "Marketing", value: total * 0.15 },
+    { name: "Utilities", value: total * 0.10 },
+    { name: "Other", value: total * 0.10 },
+  ];
+
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="mb-6 text-xl font-semibold">
+    <>
+      <h3 className="mb-5 text-xl font-semibold">
         Expense Breakdown
-      </h2>
+      </h3>
 
       <div className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
+
+        <ResponsiveContainer>
+
           <PieChart>
+
             <Pie
-              data={expenseBreakdown}
+              data={data}
               dataKey="value"
               nameKey="name"
-              outerRadius={110}
+              outerRadius={100}
             >
-              {expenseBreakdown.map((_, index) => (
+
+              {data.map((_, i) => (
                 <Cell
-                  key={index}
-                  fill={COLORS[index % COLORS.length]}
+                  key={i}
+                  fill={COLORS[i]}
                 />
               ))}
+
             </Pie>
 
+            <Legend />
+
             <Tooltip />
+
           </PieChart>
+
         </ResponsiveContainer>
+
       </div>
-    </div>
+    </>
   );
 }

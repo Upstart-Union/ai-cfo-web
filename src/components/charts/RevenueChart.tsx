@@ -10,35 +10,42 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { revenueTrend } from "@/data/charts";
+import { useDashboardStore } from "@/stores/dashboard";
 
 export default function RevenueChart() {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="mb-6 text-xl font-semibold">
-        Revenue Trend
-      </h2>
+  const forecast = useDashboardStore(
+    (state) => state.forecast
+  );
 
-      <div className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={revenueTrend}>
-            <CartesianGrid strokeDasharray="3 3" />
-
-            <XAxis dataKey="month" />
-
-            <YAxis />
-
-            <Tooltip />
-
-            <Line
-              type="monotone"
-              dataKey="revenue"
-              stroke="#2563eb"
-              strokeWidth={3}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+  if (!forecast) {
+    return (
+      <div className="flex h-80 items-center justify-center rounded-2xl border border-dashed border-slate-300 text-slate-500">
+        Upload a financial report to view revenue forecast.
       </div>
+    );
+  }
+
+  const data = forecast.months.map((month, index) => ({
+    month,
+    revenue: forecast.revenue[index],
+  }));
+
+  return (
+    <div className="h-80">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Line
+            type="monotone"
+            dataKey="revenue"
+            stroke="#2563eb"
+            strokeWidth={3}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }

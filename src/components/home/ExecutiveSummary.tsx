@@ -22,12 +22,14 @@ export default function ExecutiveSummary() {
   useEffect(() => {
     if (!dashboard) return;
 
+    const currentDashboard = dashboard;
+
     async function loadSummary() {
       try {
         setLoading(true);
 
         const result =
-          await generateSummary(dashboard);
+          await generateSummary(currentDashboard);
 
         setSummary(result.summary);
       } catch (err) {

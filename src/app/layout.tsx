@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "AI CFO",
@@ -14,7 +15,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-slate-100 text-slate-900 antialiased">
+
         {children}
+
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
+
       </body>
     </html>
   );
