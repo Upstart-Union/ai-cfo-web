@@ -1,7 +1,7 @@
 import Navbar from "@/components/common/Navbar";
 import UploadCard from "@/components/home/UploadCard";
 import FinancialOverview from "@/components/home/FinancialOverview";
-
+import ExecutiveSummary from "@/components/home/ExecutiveSummary";
 import Charts from "@/components/charts/Charts";
 
 export default function Home() {
@@ -13,9 +13,16 @@ export default function Home() {
 
         <UploadCard />
 
-        <FinancialOverview />
+        <div
+          id="analysis-section"
+          className="space-y-8 scroll-mt-24"
+        >
+          <FinancialOverview />
 
-        <Charts />
+          <ExecutiveSummary />
+
+          <Charts />
+        </div>
 
       </div>
     </main>
