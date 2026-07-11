@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { uploadFinancialReport } from "@/api/upload";
 import { generateForecast } from "@/api/forecast";
+import { generateSummary } from "@/api/summary";
+
 import { useDashboardStore } from "@/stores/dashboard";
 
 export function useUpload() {
@@ -14,6 +16,9 @@ export function useUpload() {
 
   const setForecast =
     useDashboardStore((state) => state.setForecast);
+
+  const setSummary =
+    useDashboardStore((state) => state.setSummary);
 
   const setDashboardLoading =
     useDashboardStore(
@@ -29,8 +34,18 @@ export function useUpload() {
         await uploadFinancialReport(file);
 
       if (result.success) {
+        // Store dashboard immediately
         setDashboard(result.dashboard);
 
+        // Generate summary ONCE
+        const summary =
+          await generateSummary(
+            result.dashboard
+          );
+
+        setSummary(summary.summary);
+
+        // Generate forecast
         const forecast =
           await generateForecast(
             result.dashboard

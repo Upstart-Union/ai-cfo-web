@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 import {
   FileSpreadsheet,
   BrainCircuit,
@@ -36,7 +38,21 @@ const activities = [
 
 export default function RecentActivity() {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+  <motion.section
+    initial={{
+      opacity: 0,
+      y: 20,
+    }}
+    animate={{
+      opacity: 1,
+      y: 0,
+    }}
+    transition={{
+      delay: 0.3,
+      duration: 0.5,
+    }}
+    className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+  >
 
       <h2 className="text-2xl font-bold">
         Recent Activity
@@ -85,6 +101,6 @@ export default function RecentActivity() {
 
       </div>
 
-    </section>
+    </motion.section>
   );
 }

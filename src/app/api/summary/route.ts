@@ -6,19 +6,23 @@ export async function POST(request: NextRequest) {
   const response = await fetch(
     "http://127.0.0.1:8000/ai/summary",
     {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify(body),
+      body: JSON.stringify(body),
     }
   );
 
-  const data = await response.text();
+  const text = await response.text();
 
-  return new NextResponse(data,{
-    status:response.status,
-    headers:{
+  console.log("===== FASTAPI RESPONSE =====");
+  console.log("Status:", response.status);
+  console.log(text);
+
+  return new NextResponse(text, {
+    status: response.status,
+    headers: {
       "Content-Type":
         response.headers.get("Content-Type") ??
         "application/json",

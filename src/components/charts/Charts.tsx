@@ -1,36 +1,125 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 import RevenueChart from "./RevenueChart";
 import CategoryPieChart from "./CategoryPieChart";
 import ProfitAreaChart from "./ProfitAreaChart";
 
 export default function Charts() {
   return (
-    <section className="space-y-6">
+    <section className="space-y-8">
 
-      <div>
+      {/* Header */}
 
-        <h2 className="text-3xl font-bold">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+        }}
+        transition={{
+          duration: .6,
+        }}
+        className="flex flex-col gap-2"
+      >
+
+        <span className="inline-flex w-fit rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+
+          Analytics Center
+
+        </span>
+
+        <h2 className="text-4xl font-black">
+
           Financial Analytics
+
         </h2>
 
-        <p className="mt-2 text-slate-500">
-          AI-generated financial visualization.
+        <p className="max-w-2xl text-slate-500">
+
+          Visualize business performance through interactive
+          financial analytics powered by AI.
+
         </p>
 
-      </div>
+      </motion.div>
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <RevenueChart />
-      </div>
+      {/* Grid */}
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-7 xl:grid-cols-2">
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: -40,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: .6,
+          }}
+        >
+
+          <RevenueChart />
+
+        </motion.div>
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: 40,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: .6,
+            delay: .15,
+          }}
+        >
+
           <CategoryPieChart />
-        </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        </motion.div>
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 40,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: .6,
+            delay: .3,
+          }}
+          className="xl:col-span-2"
+        >
+
           <ProfitAreaChart />
-        </div>
+
+        </motion.div>
 
       </div>
 

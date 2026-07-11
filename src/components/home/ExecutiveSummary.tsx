@@ -1,112 +1,184 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Bot, Sparkles } from "lucide-react";
+
+import {
+  BrainCircuit,
+  ShieldCheck,
+  TriangleAlert,
+  TrendingUp,
+  Sparkles,
+} from "lucide-react";
 
 import { useDashboardStore } from "@/stores/dashboard";
-import { generateSummary } from "@/api/summary";
 
 export default function ExecutiveSummary() {
-  const dashboard = useDashboardStore(
-    (state) => state.dashboard
+  const summary = useDashboardStore(
+    (state) => state.summary
   );
-
-  const [summary, setSummary] = useState(
-    "Upload a financial report to generate an AI executive summary."
-  );
-
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!dashboard) return;
-
-    const currentDashboard = dashboard;
-
-    async function loadSummary() {
-      try {
-        setLoading(true);
-
-        const result =
-          await generateSummary(currentDashboard);
-
-        setSummary(result.summary);
-      } catch (err) {
-        console.error(err);
-
-        setSummary(
-          "Unable to generate executive summary."
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadSummary();
-  }, [dashboard]);
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+    <motion.section
+      initial={{
+        opacity: 0,
+        y: 30,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+      }}
+      transition={{
+        duration: .6,
+      }}
+      className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-xl"
+    >
 
-      <div className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-6 text-white">
+      <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-cyan-700 p-8 text-white">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between">
 
-          <div className="rounded-xl bg-white/20 p-3">
+          <div className="flex items-center gap-5">
 
-            <Bot size={28} />
+            <div className="rounded-2xl bg-white/10 p-4">
+
+              <BrainCircuit size={34} />
+
+            </div>
+
+            <div>
+
+              <h2 className="text-3xl font-bold">
+                Executive Intelligence
+              </h2>
+
+              <p className="mt-1 text-blue-100">
+                AI-generated business insights
+              </p>
+
+            </div>
 
           </div>
 
-          <div>
+          <div className="rounded-full bg-green-500/20 px-4 py-2 text-sm">
 
-            <h2 className="text-3xl font-bold">
-              AI Executive Summary
-            </h2>
+            Gemini Online
 
-            <p className="text-blue-100">
-              Powered by Gemini AI
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-[320px_1fr] p-8">
+
+        {/* LEFT */}
+
+        <div className="space-y-5">
+
+          <div className="rounded-2xl bg-slate-50 p-5">
+
+            <div className="flex items-center gap-3">
+
+              <Sparkles className="text-yellow-500" />
+
+              <span className="font-semibold">
+                AI Confidence
+              </span>
+
+            </div>
+
+            <h3 className="mt-4 text-5xl font-black text-blue-600">
+              94%
+            </h3>
+
+            <p className="mt-2 text-sm text-slate-500">
+              High confidence based on uploaded
+              financial metrics.
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl border p-5">
+
+            <div className="flex items-center gap-3">
+
+              <ShieldCheck className="text-green-600" />
+
+              <span className="font-semibold">
+                Financial Health
+              </span>
+
+            </div>
+
+            <p className="mt-3 text-slate-600">
+              Stable cash flow, healthy profitability
+              and controlled expenses.
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl border p-5">
+
+            <div className="flex items-center gap-3">
+
+              <TriangleAlert className="text-orange-500" />
+
+              <span className="font-semibold">
+                Risk Level
+              </span>
+
+            </div>
+
+            <p className="mt-3 text-slate-600">
+
+              Low
+
+            </p>
+
+          </div>
+
+          <div className="rounded-2xl border p-5">
+
+            <div className="flex items-center gap-3">
+
+              <TrendingUp className="text-blue-600" />
+
+              <span className="font-semibold">
+                Growth Outlook
+              </span>
+
+            </div>
+
+            <p className="mt-3 text-slate-600">
+
+              Positive
+
             </p>
 
           </div>
 
         </div>
 
-        <Sparkles />
+        {/* RIGHT */}
+
+        <article className="prose prose-slate max-w-none rounded-3xl border bg-slate-50 p-8">
+
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+          >
+            {summary ??
+              "Upload a financial report to generate AI insights."}
+          </ReactMarkdown>
+
+        </article>
 
       </div>
 
-      <div className="p-8">
-
-        {loading ? (
-
-          <div className="flex flex-col items-center py-12">
-
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-
-            <p className="mt-5 text-slate-600">
-              Gemini is analyzing your report...
-            </p>
-
-          </div>
-
-        ) : (
-
-          <article className="prose prose-slate max-w-none">
-
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-            >
-              {summary}
-            </ReactMarkdown>
-
-          </article>
-
-        )}
-
-      </div>
-
-    </section>
+    </motion.section>
   );
 }

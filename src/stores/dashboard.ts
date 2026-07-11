@@ -9,11 +9,25 @@ import type {
 interface DashboardStore {
   dashboard: DashboardMetrics | null;
   forecast: ForecastData | null;
+  summary: string | null;
   dashboardLoading: boolean;
 
-  setDashboard: (data: DashboardMetrics) => void;
-  setForecast: (data: ForecastData) => void;
-  setDashboardLoading: (loading: boolean) => void;
+  setDashboard: (
+    data: DashboardMetrics
+  ) => void;
+
+  setForecast: (
+    data: ForecastData
+  ) => void;
+
+  setSummary: (
+    summary: string
+  ) => void;
+
+  setDashboardLoading: (
+    loading: boolean
+  ) => void;
+
   clearDashboard: () => void;
 }
 
@@ -23,21 +37,36 @@ export const useDashboardStore =
       (set) => ({
         dashboard: null,
         forecast: null,
+        summary: null,
         dashboardLoading: false,
 
         setDashboard: (dashboard) =>
-          set({ dashboard }),
+          set({
+            dashboard,
+          }),
 
         setForecast: (forecast) =>
-          set({ forecast }),
+          set({
+            forecast,
+          }),
 
-        setDashboardLoading: (dashboardLoading) =>
-          set({ dashboardLoading }),
+        setSummary: (summary) =>
+          set({
+            summary,
+          }),
+
+        setDashboardLoading: (
+          dashboardLoading
+        ) =>
+          set({
+            dashboardLoading,
+          }),
 
         clearDashboard: () =>
           set({
             dashboard: null,
             forecast: null,
+            summary: null,
             dashboardLoading: false,
           }),
       }),

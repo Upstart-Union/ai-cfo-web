@@ -1,51 +1,85 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 import {
-  LineChart,
-  Line,
-  CartesianGrid,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 import { useDashboardStore } from "@/stores/dashboard";
 
 export default function RevenueChart() {
-  const forecast = useDashboardStore(
-    (state) => state.forecast
+  const dashboard = useDashboardStore(
+    (state) => state.dashboard
   );
 
-  if (!forecast) {
-    return (
-      <div className="flex h-80 items-center justify-center rounded-2xl border border-dashed border-slate-300 text-slate-500">
-        Upload a financial report to view revenue forecast.
-      </div>
-    );
-  }
+  if (!dashboard) return null;
 
-  const data = forecast.months.map((month, index) => ({
-    month,
-    revenue: forecast.revenue[index],
-  }));
+  const data = [
+    {
+      name: "Revenue",
+      value: dashboard.revenue,
+    },
+    {
+      name: "Expenses",
+      value: dashboard.expenses,
+    },
+    {
+      name: "Profit",
+      value: dashboard.profit,
+    },
+  ];
 
   return (
-    <div className="h-80">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="revenue"
-            stroke="#2563eb"
-            strokeWidth={3}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm"
+    >
+      <div className="mb-6">
+        <h2 className="text-xl font-bold">
+          Financial Comparison
+        </h2>
+
+        <p className="text-sm text-slate-500">
+          Live metrics extracted from the uploaded report.
+        </p>
+      </div>
+
+      <div className="h-80">
+        <ResponsiveContainer>
+          <BarChart data={data}>
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+            />
+
+            <XAxis dataKey="name" />
+
+            <YAxis />
+
+            <Tooltip
+              formatter={(value: unknown) => [
+                `₱${Number(value).toLocaleString()}`,
+                "",
+              ]}
+            />
+
+            <Bar
+              dataKey="value"
+              radius={[8, 8, 0, 0]}
+              fill="#2563EB"
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </motion.div>
   );
 }
