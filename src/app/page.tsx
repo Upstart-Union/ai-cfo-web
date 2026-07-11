@@ -4,6 +4,8 @@ import FinancialOverview from "@/components/home/FinancialOverview";
 import ExecutiveSummary from "@/components/home/ExecutiveSummary";
 import Charts from "@/components/charts/Charts";
 
+import AIChat from "@/components/home/AIChat";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-slate-100">
@@ -20,6 +22,8 @@ export default function Home() {
           <FinancialOverview />
 
           <ExecutiveSummary />
+
+          <AIChat />
 
           <Charts />
         </div>
