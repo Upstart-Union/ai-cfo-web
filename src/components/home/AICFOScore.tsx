@@ -126,7 +126,7 @@ export default function AICFOScore() {
 
           <p className="text-2xl font-bold">
 
-            ₱{dashboard.profit.toLocaleString()}
+            ${dashboard.profit.toLocaleString()}
 
           </p>
 

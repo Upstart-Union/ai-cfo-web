@@ -34,7 +34,7 @@ export default function StatCard({
       : <Activity size={22} />;
 
   const numericValue = Number(
-    value.replace(/[₱,%/A-Za-z ]/g, "")
+    value.replace(/[$,%/A-Za-z ]/g, "")
   );
 
   return (
@@ -56,7 +56,7 @@ export default function StatCard({
               value
             ) : (
               <>
-                ₱
+                $
                 <CountUp
                   end={numericValue}
                   duration={1.8}

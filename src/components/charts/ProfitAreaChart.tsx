@@ -81,7 +81,7 @@ export default function ProfitAreaChart() {
           </p>
 
           <h3 className="mt-1 text-4xl font-bold text-slate-900">
-            ₱{latestProfit.toLocaleString()}
+            ${latestProfit.toLocaleString()}
           </h3>
 
         </div>
@@ -96,7 +96,7 @@ export default function ProfitAreaChart() {
 
       </div>
 
-      <div className="h-64">
+      <div className="h-80">
 
         <ResponsiveContainer width="100%" height="100%">
 
@@ -143,7 +143,7 @@ export default function ProfitAreaChart() {
               tickLine={false}
               axisLine={false}
               tickFormatter={(value) =>
-                `₱${(value / 1000).toFixed(0)}k`
+                `$${(value / 1000).toFixed(0)}k`
               }
             />
 
@@ -155,7 +155,7 @@ export default function ProfitAreaChart() {
                   "0 10px 30px rgba(0,0,0,0.12)",
               }}
               formatter={(value) => [
-                `₱${Number(value).toLocaleString()}`,
+                `$${Number(value).toLocaleString()}`,
                 "Projected Profit",
               ]}
             />
@@ -164,7 +164,7 @@ export default function ProfitAreaChart() {
               type="monotone"
               dataKey="profit"
               stroke="#22c55e"
-              strokeWidth={4}
+              strokeWidth={3}
               fill="url(#profitGradient)"
               dot={{
                 r: 5,
@@ -172,7 +172,7 @@ export default function ProfitAreaChart() {
                 fill: "#22c55e",
               }}
               activeDot={{
-                r: 8,
+                r: 10,
               }}
             />
 

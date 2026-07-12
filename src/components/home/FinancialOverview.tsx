@@ -73,21 +73,21 @@ export default function FinancialOverview() {
 
         <StatCard
           title="Revenue"
-          value={`₱${dashboard.revenue.toLocaleString()}`}
+          value={`$${dashboard.revenue.toLocaleString()}`}
           change="Live Data"
           positive={true}
         />
 
         <StatCard
           title="Expenses"
-          value={`₱${dashboard.expenses.toLocaleString()}`}
+          value={`$${dashboard.expenses.toLocaleString()}`}
           change="Live Data"
           positive={false}
         />
 
         <StatCard
           title="Net Profit"
-          value={`₱${dashboard.profit.toLocaleString()}`}
+          value={`$${dashboard.profit.toLocaleString()}`}
           change={`${dashboard.profit_margin}% Margin`}
           positive={dashboard.profit > 0}
         />

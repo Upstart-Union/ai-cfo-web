@@ -1,4 +1,5 @@
 "use client";
+import CountUp from "react-countup";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -6,19 +7,49 @@ import {
   ArrowUpRight,
   Upload,
   Sparkles,
-  Activity,
   ShieldCheck,
+  BrainCircuit,
+  TrendingUp,
+  Lightbulb,
+  BarChart3,
+  CheckCircle2,
+  DollarSign,
+  Bot,
 } from "lucide-react";
 
 import { useDashboardStore } from "@/stores/dashboard";
 
+import Image from "next/image";
+
 export default function DashboardHero() {
+
   const dashboard = useDashboardStore(
     (state) => state.dashboard
   );
 
-  const margin =
-    dashboard?.profit_margin ?? 0;
+  const margin = dashboard?.profit_margin ?? 0;
+
+    const healthScore = (() => {
+  if (!dashboard) return 0;
+
+  let score = 0;
+
+  score += Math.min(dashboard.profit_margin, 40);
+
+  if (dashboard.profit > 0) score += 25;
+
+  if (dashboard.revenue > dashboard.expenses)
+    score += 20;
+
+  const ratio =
+    dashboard.profit / dashboard.revenue;
+
+  if (ratio >= 0.25) score += 15;
+  else if (ratio >= 0.15) score += 10;
+  else if (ratio >= 0.05) score += 5;
+
+  return Math.min(100, Math.round(score));
+})();
 
   return (
     <motion.section
@@ -33,17 +64,51 @@ export default function DashboardHero() {
       transition={{
         duration: 0.6,
       }}
-      className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-700 p-10 text-white shadow-2xl"
+      className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-700 p-8 text-white shadow-2xl"
     >
       {/* Decorative Blur */}
       <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
       <div className="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-blue-500/20 blur-3xl" />
 
-      <div className="relative z-10 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
 
+
+      <div className="relative z-10 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+
+      <motion.div
+          animate={{
+              y: [0, -12, 0],
+              rotate: [0, 1, 0, -1, 0],
+          }}
+          transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: "easeInOut",
+          }}
+          className="
+          absolute
+          left-[-30px]
+          bottom-[-90px]
+          pointer-events-none
+          -z-10
+          "
+      >
+
+      <Image
+          src="/images/hero-chart.png"
+          alt=""
+          width={560}
+          height={560}
+          className="
+          w-[520px]
+          opacity-20
+          drop-shadow-[0_0_100px_rgba(59,130,246,.75)]
+          "
+      />
+
+      </motion.div>
         {/* Left */}
 
-        <div>
+        <div className="flex min-h-full flex-col">
 
           <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur">
 
@@ -53,7 +118,7 @@ export default function DashboardHero() {
 
           </div>
 
-          <h1 className="mt-6 text-5xl font-black tracking-tight">
+          <h1 className="mt-5 text-5xl font-black tracking-tight">
 
             Executive
             <br />
@@ -61,7 +126,7 @@ export default function DashboardHero() {
 
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-blue-100">
+          <p className="mt-5 max-w-xl text-lg leading-7 text-blue-100">
 
             Transform financial statements into executive
             insights, forecasts, and strategic recommendations
@@ -69,8 +134,32 @@ export default function DashboardHero() {
 
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="mt-5 flex flex-wrap gap-2">
 
+            <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
+
+                <CheckCircle2 size={14} className="text-cyan-300"/>
+
+                Executive Reports
+
+            </div>
+
+            <span className="rounded-full bg-white/10 px-3 py-1 text-s text-cyan-200">
+              AI Forecasting
+            </span>
+
+            <span className="rounded-full bg-white/10 px-3 py-1 text-s text-cyan-200">
+              Strategic Insights
+            </span>
+
+            <span className="rounded-full bg-white/10 px-3 py-1 text-s text-cyan-200">
+              Scenario Simulator
+            </span>
+
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-4">
+            
             <Link
               href="/upload"
               className="rounded-xl bg-white px-7 py-4 font-semibold text-slate-900 transition hover:scale-105"
@@ -91,26 +180,142 @@ export default function DashboardHero() {
               </div>
             </Link>
 
+
           </div>
+
+          <div className="relative mt-10 h-32">
+
+            <motion.div
+            animate={{
+                y: [0, -30, 0],
+                x: [30, 0, 0],
+            }}
+
+            transition={{
+                duration: 6,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+            }}
+            className="
+            absolute
+            left-50
+            top-6
+            rounded-2xl
+            bg-slate-900/30
+            backdrop-blur-xl
+            border
+            border-white/10
+            px-5
+            py-4
+            shadow-2xl
+            "
+            >
+
+            <p className="text-xs text-cyan-200">
+            AI Confidence
+            </p>
+
+            <h3 className="mt-1 text-2xl font-bold">
+            98%
+            </h3>
+
+            </motion.div>
+
+            <motion.div
+            animate={{
+                y: [0, -30, 0],
+                x: [-30, 0, 0],
+            }}
+
+            transition={{
+                duration: 7,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+            }}
+            className="
+            absolute
+            left-95
+            top-6
+            rounded-2xl
+            bg-slate-900/30
+            backdrop-blur-xl
+            border
+            border-white/10
+            px-5
+            py-4
+            shadow-2xl
+            "
+            >
+
+            <p className="text-xs text-cyan-200">
+            Forecast
+            </p>
+
+            <h3 className="mt-1 text-xl font-bold">
+            6 Months
+            </h3>
+
+            </motion.div>
+
+            <motion.div
+            animate={{
+                y: [0, -30, 0],
+                x: [-30, 0, 0],
+            }}
+
+            transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+            }}
+            className="
+            absolute
+            left-15
+            top-7
+            rounded-2xl
+            bg-slate-900/30
+            backdrop-blur-xl
+            border
+            border-white/10
+            px-5
+            py-4
+            shadow-2xl
+            "
+            >
+
+            <p className="text-xs text-cyan-200">
+            Executive Report
+</p>
+
+<h3 className="mt-1 text-xl font-bold">
+Ready ✓
+</h3>
+
+</motion.div>
+
+</div>
 
         </div>
 
         {/* Right */}
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          x: 40,
-        }}
-        animate={{
-          opacity: 1,
-          x: 0,
-        }}
-        transition={{
-          delay: 0.25,
-        }}
-        className="rounded-3xl border border-white/20 bg-white/10 p-7 backdrop-blur-xl"
-      >
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: 40,
+          }}
+          animate={{
+            opacity: 1,
+            x: 0,
+          }}
+          transition={{
+            delay: 0.25,
+          }}
+          className="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-xl"
+        >
 
         <div className="flex items-center justify-between">
 
@@ -130,13 +335,23 @@ export default function DashboardHero() {
 
             <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400" />
 
-            Gemini Online
+            <motion.span
+              animate={{
+                  opacity:[1,.6,1]
+              }}
+              transition={{
+                  repeat:Infinity,
+                  duration:2
+              }}
+              >
+              Gemini Online
+            </motion.span>
 
           </div>
 
         </div>
 
-        <div className="mt-8 grid grid-cols-3 gap-4">
+        <div className="mt-6 grid grid-cols-3 gap-4">
 
           <div className="rounded-2xl bg-black/20 p-4">
 
@@ -145,7 +360,12 @@ export default function DashboardHero() {
             </p>
 
             <h3 className="mt-2 text-xl font-bold">
-              ₱{dashboard?.revenue.toLocaleString() ?? "0"}
+              <CountUp
+                end={dashboard?.revenue ?? 0}
+                duration={2}
+                separator=","
+                prefix="$"
+              />
             </h3>
 
           </div>
@@ -157,7 +377,12 @@ export default function DashboardHero() {
             </p>
 
             <h3 className="mt-2 text-xl font-bold">
-              ₱{dashboard?.profit.toLocaleString() ?? "0"}
+             <CountUp
+                end={dashboard?.profit ?? 0}
+                duration={2}
+                separator=","
+                prefix="$"
+              />
             </h3>
 
           </div>
@@ -169,56 +394,71 @@ export default function DashboardHero() {
             </p>
 
             <h3 className="mt-2 text-xl font-bold">
-              {margin.toFixed(1)}%
+              <CountUp
+                end={margin}
+                decimals={1}
+                suffix="%"
+                duration={2}
+              />
             </h3>
 
           </div>
 
         </div>
 
-        <div className="mt-8">
+<div className="mt-6">
 
-          <div className="mb-2 flex items-center justify-between">
+  <div className="mb-2 flex items-center justify-between">
 
-            <span className="text-sm font-medium">
-              Financial Health Score
-            </span>
+    <span className="text-sm font-medium">
+      Financial Health Score
+    </span>
 
-            <span className="font-bold">
+    <span className="font-bold">
 
-              {margin >= 20
-                ? "Excellent"
-                : margin >= 10
-                ? "Good"
-                : "Needs Attention"}
+      {healthScore >= 85
+        ? "Excellent"
+        : healthScore >= 70
+        ? "Good"
+        : healthScore >= 50
+        ? "Fair"
+        : "Needs Attention"}
 
-            </span>
+      {" "}
+      ({healthScore}%)
 
-          </div>
+    </span>
 
-          <div className="h-3 overflow-hidden rounded-full bg-white/20">
+  </div>
 
-            <motion.div
-              initial={{
-                width: 0,
-              }}
-              animate={{
-                width: `${Math.min(
-                  100,
-                  margin * 3
-                )}%`,
-              }}
-              transition={{
-                duration: 1.4,
-              }}
-              className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-emerald-400"
-            />
+  <div className="relative h-3 overflow-hidden rounded-full bg-white/20">
 
-          </div>
+    <motion.div
+      initial={{ width: 0 }}
+      animate={{ width: `${healthScore}%` }}
+      transition={{
+        duration: 1.8,
+        ease: "easeOut",
+      }}
+      className="
+        absolute
+        left-0
+        top-0
+        h-full
+        rounded-full
+        bg-gradient-to-r
+        from-cyan-300
+        via-sky-400
+        to-emerald-400
+        shadow-[0_0_14px_rgba(34,211,238,.45)]
+      "
+    />
 
-        </div>
+  </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4">
+</div>
+
+        <div className="mt-6 grid grid-cols-2 gap-4">
 
           <div className="rounded-2xl border border-white/20 bg-black/20 p-4">
 
@@ -246,7 +486,7 @@ export default function DashboardHero() {
 
         </div>
 
-        <div className="mt-8 rounded-2xl border border-emerald-300/20 bg-emerald-500/10 p-5">
+        <div className="mt-6 rounded-2xl border border-emerald-300/20 bg-emerald-500/10 p-5">
 
           <div className="flex items-start gap-3">
 
@@ -258,14 +498,13 @@ export default function DashboardHero() {
             <div>
 
               <p className="font-semibold">
-                Executive Analysis Complete
+                Analysis Complete
               </p>
 
-              <p className="mt-1 text-sm leading-6 text-blue-100">
+              <p className="mt-1 text-sm text-blue-100">
 
-                Your financial report has been analyzed.
-                AI CFO generated forecasts, executive insights,
-                and strategic recommendations for decision-making.
+                Executive report, AI recommendations,
+                and forecast are ready.
 
               </p>
 

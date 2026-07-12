@@ -10,10 +10,6 @@ export default function ForecastPage() {
 
       <div className="mx-auto max-w-7xl px-6 py-8">
 
-        <h1 className="mb-8 text-4xl font-bold">
-          Financial Forecast
-        </h1>
-
         <Charts />
 
       </div>

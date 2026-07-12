@@ -8,6 +8,8 @@ import { Bot, User, Send } from "lucide-react";
 import { sendMessage } from "@/api/chat";
 import { useDashboardStore } from "@/stores/dashboard";
 
+import { useChatStore } from "@/stores/chat";
+
 export default function AIChat() {
   const dashboard = useDashboardStore(
     (state) => state.dashboard
@@ -15,9 +17,8 @@ export default function AIChat() {
 
   const [message, setMessage] = useState("");
 
-  const [history, setHistory] = useState<
-    { role: "user" | "assistant"; text: string }[]
-  >([]);
+  const history = useChatStore((state) => state.history);
+  const addMessage = useChatStore((state) => state.addMessage);
 
   const [loading, setLoading] = useState(false);
 
@@ -41,13 +42,10 @@ export default function AIChat() {
 
     const userMessage = text;
 
-    setHistory((prev) => [
-      ...prev,
-      {
-        role: "user",
-        text: userMessage,
-      },
-    ]);
+    addMessage({
+      role: "user",
+      text: userMessage,
+    });
 
     if (!quickPrompt) {
       setMessage("");
@@ -60,158 +58,317 @@ export default function AIChat() {
         dashboard
       );
 
-      setHistory((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          text: result.answer,
-        },
-      ]);
+      addMessage({
+        role: "assistant",
+        text: result.answer,
+      });
     } catch {
-      setHistory((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          text: "Unable to contact AI CFO.",
-        },
-      ]);
+      addMessage({
+        role: "assistant",
+        text: "Unable to contact AI CFO.",
+      });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <section
+      className="
+      overflow-hidden
+      rounded-[36px]
+      border
+      border-slate-200/70
+      bg-white/90
+      backdrop-blur-xl
+      shadow-[0_25px_70px_rgba(15,23,42,0.08)]
+      "
+      >
 
-      <div className="border-b px-6 py-5">
+      <div className="
+      flex
+      items-center
+      justify-between
+      bg-gradient-to-r
+      from-slate-900
+      via-blue-900
+      to-cyan-700
+      px-8
+      py-7
+      text-white
+      ">
 
-        <h2 className="text-2xl font-bold">
-          AI CFO Assistant
-        </h2>
+        <div>
 
-        <p className="mt-1 text-slate-500">
-          Powered by Gemini AI
-        </p>
+          <h2 className="text-4xl font-black">
+
+            AI CFO Assistant
+
+          </h2>
+
+          <p className="mt-2 text-blue-100">
+
+            Your executive financial advisor powered by Gemini AI
+
+          </p>
+
+        </div>
+
+        <div className="rounded-full
+        border
+        border-emerald-400/20
+        bg-emerald-500/15
+        px-5
+        py-2.5
+        backdrop-blur-xl">
+
+          <div className="flex items-center gap-2">
+
+            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400"/>
+
+            <span className="font-semibold text-emerald-200">
+
+              Gemini Online
+
+            </span>
+
+          </div>
+
+        </div>
 
       </div>
 
-      <div className="h-[500px] overflow-y-auto bg-slate-50 p-6">
+      <div className="
+      h-[560px]
+      overflow-y-auto
+      bg-gradient-to-b
+      from-slate-50
+      to-white
+      px-8
+      py-8
+      ">
 
-        {history.length === 0 && (
+      {history.length === 0 ? (
 
-          <div className="rounded-2xl border bg-white p-6">
+        <div className="
+        flex
+        min-h-full
+        flex-col
+        items-center
+        justify-start
+        pt-8
+        pb-8
+        ">
 
-            <p className="text-lg font-bold">
-              AI Quick Actions
-            </p>
+            
+          <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-xl">
 
-            <p className="mt-2 text-sm text-slate-500">
-              Click a suggestion to instantly ask AI CFO.
-            </p>
+            <Bot size={44}/>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+          </div>
 
-              {[
-                "Explain my revenue performance.",
-                "How can I improve profit margin?",
-                "Identify my biggest financial risks.",
-                "Suggest growth opportunities.",
-                "Analyze my financial health.",
-                "Recommend ways to reduce expenses.",
-              ].map((prompt) => (
+          <h2 className="text-3xl font-bold">
 
-                <button
-                  key={prompt}
-                  onClick={() => handleSend(prompt)}
-                  className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium transition-all duration-200 hover:border-blue-600 hover:bg-blue-50 hover:text-blue-700"
+            AI CFO is Ready
+
+          </h2>
+
+          <p className="mt-3 max-w-xl text-center text-slate-500">
+
+            Ask anything about your financial report,
+            profitability, forecasts, expenses,
+            risks or business growth.
+
+          </p>
+
+          <div className="mt-10 grid w-full max-w-5xl gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+            {[
+              {
+                title:"Revenue Analysis",
+                prompt:"Explain my revenue performance.",
+              },
+              {
+                title:"Profit Margin",
+                prompt:"How can I improve profit margin?",
+              },
+              {
+                title:"Financial Risks",
+                prompt:"Identify my biggest financial risks.",
+              },
+              {
+                title:"Growth Opportunities",
+                prompt:"Suggest growth opportunities.",
+              },
+              {
+                title:"Financial Health",
+                prompt:"Analyze my financial health.",
+              },
+              {
+                title:"Reduce Expenses",
+                prompt:"Recommend ways to reduce expenses.",
+              },
+            ].map((item)=>(
+
+              <button
+
+                key={item.title}
+
+                onClick={()=>
+                  handleSend(item.prompt)
+                }
+
+                className="
+                rounded-3xl
+                border
+                border-transparent
+                bg-white
+                p-6
+                shadow-md
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:border-blue-300
+                hover:shadow-xl
+                "
+
+              >
+
+                <div className="mb-4 inline-flex rounded-2xl bg-blue-100 p-3">
+
+                  ✨
+
+                </div>
+
+                <h3 className="font-bold">
+
+                  {item.title}
+
+                </h3>
+
+                <p className="mt-2 text-sm text-slate-500">
+
+                  {item.prompt}
+
+                </p>
+
+              </button>
+
+            ))}
+
+          </div>
+
+
+        </div>
+
+      ) : (
+
+        <div className="space-y-6">
+
+            {history.map((item, index) => (
+
+              <div
+                key={index}
+                className={`mb-6 flex ${
+                  item.role === "user"
+                    ? "justify-end"
+                    : "justify-start"
+                }`}
+              >
+
+                {item.role === "assistant" && (
+                  <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                    <Bot size={18} />
+                  </div>
+                )}
+
+                <div
+                  className={`max-w-[80%] rounded-3xl px-6 py-5 ${
+                    item.role === "user"
+                      ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg"
+                      : "bg-white shadow-[0_8px_30px_rgba(15,23,42,0.08)]"
+                  }`}
                 >
-                  ✨ {prompt}
-                </button>
+                  {item.role === "assistant" ? (
+                    <article className="prose prose-sm max-w-none">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {item.text}
+                      </ReactMarkdown>
+                    </article>
+                  ) : (
+                    item.text
+                  )}
+                </div>
 
-              ))}
+                {item.role === "user" && (
+                  <div className="ml-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-white">
+                    <User size={18} />
+                  </div>
+                )}
 
-            </div>
-
-          </div>
-
-        )}
-
-        {history.map((item, index) => (
-
-          <div
-            key={index}
-            className={`mb-6 flex ${
-              item.role === "user"
-                ? "justify-end"
-                : "justify-start"
-            }`}
-          >
-
-            {item.role === "assistant" && (
-              <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
-                <Bot size={18} />
               </div>
+
+            ))}
+
+            {loading && (
+
+              <div className="flex items-center gap-3">
+
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                  <Bot size={18} />
+                </div>
+
+                <div className="rounded-3xl bg-white px-6 py-5 shadow-lg">
+                  <p className="mb-3 text-sm font-semibold text-slate-500">
+
+                  Thinking...
+
+                  </p>
+
+                  <div className="flex gap-2">
+
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600"></div>
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600 [animation-delay:150ms]"></div>
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600 [animation-delay:300ms]"></div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
             )}
 
-            <div
-              className={`max-w-[80%] rounded-2xl px-5 py-4 ${
-                item.role === "user"
-                  ? "bg-blue-600 text-white"
-                  : "border bg-white"
-              }`}
-            >
-              {item.role === "assistant" ? (
-                <article className="prose prose-sm max-w-none">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {item.text}
-                  </ReactMarkdown>
-                </article>
-              ) : (
-                item.text
-              )}
-            </div>
+            <div ref={bottomRef}/>
 
-            {item.role === "user" && (
-              <div className="ml-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-white">
-                <User size={18} />
-              </div>
-            )}
+        </div>
 
-          </div>
-
-        ))}
-
-        {loading && (
-
-          <div className="flex items-center gap-3">
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
-              <Bot size={18} />
-            </div>
-
-            <div className="rounded-2xl border bg-white px-5 py-4">
-
-              <div className="flex gap-2">
-
-                <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600"></div>
-                <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600 [animation-delay:150ms]"></div>
-                <div className="h-2 w-2 animate-bounce rounded-full bg-blue-600 [animation-delay:300ms]"></div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        )}
+      )}
 
         <div ref={bottomRef} />
 
       </div>
 
-      <div className="border-t bg-white p-5">
+      <div
+      className="
+      bg-white
+      px-8
+      pb-8
+      pt-4
+      "
+      >
 
-        <div className="flex gap-3">
+        <div
+        className="
+        flex
+        items-center
+        gap-4
+        rounded-3xl
+        bg-slate-50
+        p-3
+        shadow-inner
+        "
+        >
 
           <input
             value={message}
@@ -224,16 +381,52 @@ export default function AIChat() {
               }
             }}
             placeholder="Ask AI CFO anything..."
-            className="flex-1 rounded-xl border px-4 py-3 focus:border-blue-500 focus:outline-none"
+            className="
+              flex-1
+              rounded-2xl
+              border
+              border-slate-200
+              bg-slate-50
+              px-6
+              py-4
+              text-lg
+              shadow-inner
+              transition-all
+              focus:border-blue-500
+              bg-gradient-to-br
+              from-white
+              to-slate-50
+              focus:ring-4
+              focus:ring-blue-100
+              focus:outline-none
+              "
           />
 
-        <button
-          onClick={() => handleSend()}
-          disabled={loading}
-          className="rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700 disabled:opacity-50"
-        >
-          <Send size={18} />
-        </button>
+          <button
+            onClick={() => handleSend()}
+            disabled={loading}
+            className="
+            flex
+            h-16
+            w-16
+            items-center
+            justify-center
+            rounded-2xl
+            bg-gradient-to-r
+            from-blue-600
+            to-cyan-500
+            text-white
+            shadow-lg
+            transition-all
+            hover:scale-105
+            hover:shadow-blue-400/40
+            disabled:opacity-50
+            "
+          >
+
+            <Send size={22}/>
+
+          </button>
 
         </div>
 

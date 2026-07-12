@@ -209,7 +209,7 @@ export default function ScenarioSimulator() {
             </p>
 
             <h3 className="mt-2 text-2xl font-bold">
-              ₱{result.revenue.toLocaleString()}
+              ${result.revenue.toLocaleString()}
             </h3>
 
           </div>
@@ -223,7 +223,7 @@ export default function ScenarioSimulator() {
             </p>
 
             <h3 className="mt-2 text-2xl font-bold">
-              ₱{result.expenses.toLocaleString()}
+              ${result.expenses.toLocaleString()}
             </h3>
 
           </div>
@@ -237,7 +237,7 @@ export default function ScenarioSimulator() {
             </p>
 
             <h3 className="mt-2 text-2xl font-bold">
-              ₱{result.profit.toLocaleString()}
+              ${result.profit.toLocaleString()}
             </h3>
 
           </div>
