@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI CFO
 
-## Getting Started
+AI CFO is an AI-powered financial intelligence platform that transforms uploaded financial statements into executive dashboards, forecasts, strategic insights, and conversational business recommendations.
 
-First, run the development server:
+Built for the AMD Developer Hackathon Act II.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Features
+
+- Financial statement CSV upload
+- Executive Dashboard
+- AI-generated Executive Summary
+- AI Recommendations
+- Financial Forecasting
+- Interactive Analytics
+- AI CFO Chat Assistant
+- Persistent dashboard and chat history
+- Modern responsive interface
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- Next.js 16
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Recharts
+- Zustand
+- React Markdown
+
+### Backend
+
+- FastAPI
+- Python
+- Google Gemini API
+- Pandas
+
+---
+
+## Project Structure
+
+```
+ai-cfo-web/
+│
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── charts/
+│   ├── stores/
+│   ├── hooks/
+│   ├── api/
+│   └── types/
+│
+├── public/
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screenshots
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> Add screenshots of:
 
-## Learn More
+> ![alt text](image.png)
+> ![alt text](image-1.png)
+> ![alt text](image-2.png)
+> ![alt text](image-3.png)
+> ![alt text](image-4.png)
+> ![alt text](image-6.png)
+> ![alt text](image-5.png)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
+Runs on:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+http://localhost:3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## AI Features
+
+- Executive financial summaries
+- Strategic recommendations
+- Conversational financial assistant
+- Profitability analysis
+- Financial health evaluation
+- Forecast generation
+
+---
+
+## Built For
+
+AMD Developer Hackathon Act II
+
+Track: Unicorn
+
+Powered by AMD AI technologies and Google Gemini.
