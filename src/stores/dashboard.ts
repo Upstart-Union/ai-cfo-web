@@ -6,10 +6,17 @@ import type {
   ForecastData,
 } from "@/types/dashboard";
 
+export interface AIRecommendation {
+  title: string;
+  description: string;
+  priority: "High" | "Medium" | "Low";
+}
+
 interface DashboardStore {
   dashboard: DashboardMetrics | null;
   forecast: ForecastData | null;
   summary: string | null;
+  recommendations: AIRecommendation[];
   dashboardLoading: boolean;
 
   setDashboard: (
@@ -22,6 +29,10 @@ interface DashboardStore {
 
   setSummary: (
     summary: string
+  ) => void;
+
+  setRecommendations: (
+    recommendations: AIRecommendation[]
   ) => void;
 
   setDashboardLoading: (
@@ -38,6 +49,7 @@ export const useDashboardStore =
         dashboard: null,
         forecast: null,
         summary: null,
+        recommendations: [],
         dashboardLoading: false,
 
         setDashboard: (dashboard) =>
@@ -55,6 +67,13 @@ export const useDashboardStore =
             summary,
           }),
 
+        setRecommendations: (
+          recommendations
+        ) =>
+          set({
+            recommendations,
+          }),
+
         setDashboardLoading: (
           dashboardLoading
         ) =>
@@ -67,6 +86,7 @@ export const useDashboardStore =
             dashboard: null,
             forecast: null,
             summary: null,
+            recommendations: [],
             dashboardLoading: false,
           }),
       }),

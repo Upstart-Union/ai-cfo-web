@@ -11,6 +11,9 @@ import { useDashboardStore } from "@/stores/dashboard";
 export function useUpload() {
   const [loading, setLoading] = useState(false);
 
+  const [processingStep, setProcessingStep] =
+    useState(-1);
+
   const setDashboard =
     useDashboardStore((state) => state.setDashboard);
 
@@ -19,6 +22,11 @@ export function useUpload() {
 
   const setSummary =
     useDashboardStore((state) => state.setSummary);
+
+  const setRecommendations =
+    useDashboardStore(
+      (state) => state.setRecommendations
+    );
 
   const setDashboardLoading =
     useDashboardStore(
@@ -30,22 +38,45 @@ export function useUpload() {
     setDashboardLoading(true);
 
     try {
+
+      // Step 0
+      setProcessingStep(0);
+
       const result =
         await uploadFinancialReport(file);
 
       if (result.success) {
-        // Store dashboard immediately
+
         setDashboard(result.dashboard);
 
-        // Generate summary ONCE
-        const summary =
+        // Step 1
+        setProcessingStep(1);
+
+        await new Promise((r) =>
+          setTimeout(r, 350)
+        );
+
+        // Step 2
+        setProcessingStep(2);
+
+        const ai =
           await generateSummary(
             result.dashboard
           );
 
-        setSummary(summary.summary);
+        setSummary(ai.summary);
 
-        // Generate forecast
+        setRecommendations(
+          ai.recommendations
+        );
+
+        await new Promise((r) =>
+          setTimeout(r, 350)
+        );
+
+        // Step 3
+        setProcessingStep(3);
+
         const forecast =
           await generateForecast(
             result.dashboard
@@ -56,20 +87,48 @@ export function useUpload() {
             forecast.forecast
           );
         }
+
+        await new Promise((r) =>
+          setTimeout(r, 350)
+        );
+
+        // Step 4
+        setProcessingStep(4);
+
+        await new Promise((r) =>
+          setTimeout(r, 350)
+        );
+
+        // Step 5
+        setProcessingStep(5);
+
+        await new Promise((r) =>
+          setTimeout(r, 700)
+        );
       }
 
       return result;
+
     } catch (error) {
+
       console.error(error);
       throw error;
+
     } finally {
+
       setLoading(false);
       setDashboardLoading(false);
+
+      setTimeout(() => {
+        setProcessingStep(-1);
+      }, 300);
+
     }
   }
 
   return {
     upload,
     loading,
+    processingStep,
   };
 }

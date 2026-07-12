@@ -12,6 +12,12 @@ import RecentActivity from "@/components/home/RecentActivity";
 
 import { useDashboardStore } from "@/stores/dashboard";
 
+import AIRecommendations from "@/components/home/AIRecommendations";
+
+import AIInsights from "@/components/home/AIInsights";
+
+import ScenarioSimulator from "@/components/home/ScenarioSimulator";
+
 export default function DashboardPage() {
 
   const dashboard = useDashboardStore(
@@ -36,9 +42,15 @@ export default function DashboardPage() {
           <>
             <FinancialOverview />
 
-            <ExecutiveSummary />
+            <AIRecommendations />
+
+            <AIInsights />
+
+            <ScenarioSimulator />
 
             <Charts />
+
+            <ExecutiveSummary />
 
             <RecentActivity />
           </>

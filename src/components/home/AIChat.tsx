@@ -29,10 +29,17 @@ export default function AIChat() {
     });
   }, [history, loading]);
 
-  async function handleSend() {
-    if (!message.trim() || loading) return;
+  async function handleSend(
+    quickPrompt?: string
+  ) {
 
-    const userMessage = message;
+    const text =
+      quickPrompt ?? message;
+
+    if (!text.trim() || loading)
+      return;
+
+    const userMessage = text;
 
     setHistory((prev) => [
       ...prev,
@@ -42,7 +49,9 @@ export default function AIChat() {
       },
     ]);
 
-    setMessage("");
+    if (!quickPrompt) {
+      setMessage("");
+    }
     setLoading(true);
 
     try {
@@ -90,18 +99,38 @@ export default function AIChat() {
 
         {history.length === 0 && (
 
-          <div className="rounded-2xl border bg-white p-5">
+          <div className="rounded-2xl border bg-white p-6">
 
-            <p className="font-semibold">
-              Suggested Questions
+            <p className="text-lg font-bold">
+              AI Quick Actions
             </p>
 
-            <ul className="mt-4 space-y-2 text-slate-600">
-              <li>• How is my business performing?</li>
-              <li>• How can I improve profit?</li>
-              <li>• Should I reduce expenses?</li>
-              <li>• Analyze my financial health.</li>
-            </ul>
+            <p className="mt-2 text-sm text-slate-500">
+              Click a suggestion to instantly ask AI CFO.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+
+              {[
+                "Explain my revenue performance.",
+                "How can I improve profit margin?",
+                "Identify my biggest financial risks.",
+                "Suggest growth opportunities.",
+                "Analyze my financial health.",
+                "Recommend ways to reduce expenses.",
+              ].map((prompt) => (
+
+                <button
+                  key={prompt}
+                  onClick={() => handleSend(prompt)}
+                  className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium transition-all duration-200 hover:border-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  ✨ {prompt}
+                </button>
+
+              ))}
+
+            </div>
 
           </div>
 
@@ -198,13 +227,13 @@ export default function AIChat() {
             className="flex-1 rounded-xl border px-4 py-3 focus:border-blue-500 focus:outline-none"
           />
 
-          <button
-            onClick={handleSend}
-            disabled={loading}
-            className="rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700 disabled:opacity-50"
-          >
-            <Send size={18} />
-          </button>
+        <button
+          onClick={() => handleSend()}
+          disabled={loading}
+          className="rounded-xl bg-blue-600 px-5 text-white hover:bg-blue-700 disabled:opacity-50"
+        >
+          <Send size={18} />
+        </button>
 
         </div>
 

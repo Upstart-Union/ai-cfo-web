@@ -13,32 +13,22 @@ import AIProcessingModal from "@/components/ui/AIProcessingModal";
 export default function UploadCard() {
   const router = useRouter();
 
-  const { upload, loading } = useUpload();
+  const {
+    upload,
+    loading,
+    processingStep,
+  } = useUpload();
 
   const [showModal, setShowModal] = useState(false);
-  const [step, setStep] = useState(0);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) return;
 
       setShowModal(true);
-      setStep(0);
-
-      const timer = setInterval(() => {
-        setStep((prev) => (prev >= 5 ? prev : prev + 1));
-      }, 700);
 
       try {
         await upload(acceptedFiles[0]);
-
-        clearInterval(timer);
-
-        setStep(5);
-
-        await new Promise((resolve) =>
-          setTimeout(resolve, 900)
-        );
 
         setShowModal(false);
 
@@ -49,7 +39,6 @@ export default function UploadCard() {
         router.push("/dashboard");
 
       } catch (err) {
-        clearInterval(timer);
 
         setShowModal(false);
 
@@ -79,7 +68,7 @@ export default function UploadCard() {
     <>
       <AIProcessingModal
         open={showModal}
-        step={step}
+        step={processingStep}
       />
 
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
