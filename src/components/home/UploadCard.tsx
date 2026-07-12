@@ -28,14 +28,22 @@ export default function UploadCard() {
       setShowModal(true);
 
       try {
-        await upload(acceptedFiles[0]);
+        const result = await upload(acceptedFiles[0]);
 
-        setShowModal(false);
+        if (!result?.success) {
+          throw new Error("Upload failed");
+        }
 
         toast.success(
           "Financial report analyzed successfully!"
         );
-
+        
+        await new Promise((r) =>
+          setTimeout(r, 800)
+        );
+        
+        setShowModal(false);
+        
         router.push("/dashboard");
 
       } catch (err) {
@@ -44,7 +52,12 @@ export default function UploadCard() {
 
         console.error(err);
 
-        toast.error("Upload failed.");
+        const message =
+          err instanceof Error
+            ? err.message
+            : "Upload failed.";
+        
+        toast.error(message);
       }
     },
     [upload, router]
