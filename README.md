@@ -1,3 +1,7 @@
+# Below is the other repository for this project:
+https://github.com/Upstart-Union/ai-cfo-api
+
+
 # AI CFO
 
 AI CFO is an AI-powered financial intelligence platform that transforms uploaded financial statements into executive dashboards, forecasts, strategic insights, and conversational business recommendations.
