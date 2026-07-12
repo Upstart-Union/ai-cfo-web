@@ -7,6 +7,7 @@ import {
   Database,
   FileText,
   LineChart,
+  Loader2,
   ScanSearch,
   Sparkles,
 } from "lucide-react";
@@ -170,7 +171,16 @@ export default function AIProcessingModal({
                         }`}
                       >
 
-                        <Icon size={22} />
+                        {active ? (
+                          <Loader2
+                            size={22}
+                            className="animate-spin"
+                          />
+                        ) : done ? (
+                          <CheckCircle2 size={22} />
+                        ) : (
+                          <Icon size={22} />
+                        )}
 
                       </div>
 
