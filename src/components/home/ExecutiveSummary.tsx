@@ -70,7 +70,7 @@ export default function ExecutiveSummary() {
             <div className="h-2 w-2 rounded-full bg-green-400"/>
 
             <span className="text-sm font-semibold">
-              Gemini Online
+              Online
             </span>
 
           </div>
