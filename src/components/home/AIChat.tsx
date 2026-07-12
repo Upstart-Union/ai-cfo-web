@@ -108,7 +108,7 @@ export default function AIChat() {
 
           <p className="mt-2 text-blue-100">
 
-            Your executive financial advisor powered by Gemini AI
+            Your executive financial advisor powered by Artificial Intelligence
 
           </p>
 
@@ -128,7 +128,7 @@ export default function AIChat() {
 
             <span className="font-semibold text-emerald-200">
 
-              Gemini Online
+              Online
 
             </span>
 

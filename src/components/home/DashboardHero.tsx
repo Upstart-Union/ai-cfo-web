@@ -28,6 +28,7 @@ export default function DashboardHero() {
   );
 
   const margin = dashboard?.profit_margin ?? 0;
+  const hasData = dashboard !== null;
 
     const healthScore = (() => {
   if (!dashboard) return 0;
@@ -129,8 +130,7 @@ export default function DashboardHero() {
           <p className="mt-5 max-w-xl text-lg leading-7 text-blue-100">
 
             Transform financial statements into executive
-            insights, forecasts, and strategic recommendations
-            powered by Gemini AI.
+            insights, forecasts, and strategic recommendations, Aritifical Intelligence Powered CFO.
 
           </p>
 
@@ -331,20 +331,33 @@ Ready ✓
 
           </div>
 
-          <div className="flex items-center gap-2 rounded-full bg-emerald-500/20 px-3 py-1 text-sm font-semibold text-emerald-200">
+          <div
+            className={`flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold
+            ${
+              hasData
+                ? "bg-emerald-500/20 text-emerald-200"
+                : "bg-yellow-400/20 text-yellow-200"
+            }`}
+          >
 
-            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-emerald-400" />
+            <span
+              className={`h-2.5 w-2.5 animate-pulse rounded-full ${
+                hasData
+                  ? "bg-emerald-400"
+                  : "bg-yellow-400"
+              }`}
+            />
 
             <motion.span
-              animate={{
-                  opacity:[1,.6,1]
-              }}
+              animate={{ opacity: [1, .6, 1] }}
               transition={{
-                  repeat:Infinity,
-                  duration:2
+                repeat: Infinity,
+                duration: 2,
               }}
-              >
-              Gemini Online
+            >
+
+              {hasData ? "Online" : "Awaiting Report"}
+
             </motion.span>
 
           </div>
@@ -360,12 +373,20 @@ Ready ✓
             </p>
 
             <h3 className="mt-2 text-xl font-bold">
-              <CountUp
-                end={dashboard?.revenue ?? 0}
-                duration={2}
-                separator=","
-                prefix="$"
-              />
+              {hasData ? (
+
+                <CountUp
+                  end={dashboard!.revenue}
+                  duration={2}
+                  separator=","
+                  prefix="$"
+                />
+
+              ) : (
+
+                <span className="text-slate-300">—</span>
+
+              )}
             </h3>
 
           </div>
@@ -377,12 +398,20 @@ Ready ✓
             </p>
 
             <h3 className="mt-2 text-xl font-bold">
-             <CountUp
-                end={dashboard?.profit ?? 0}
-                duration={2}
-                separator=","
-                prefix="$"
-              />
+              {hasData ? (
+
+                <CountUp
+                  end={dashboard!.profit}
+                  duration={2}
+                  separator=","
+                  prefix="$"
+                />
+
+              ) : (
+
+                <span className="text-slate-300">—</span>
+
+              )}
             </h3>
 
           </div>
@@ -394,12 +423,20 @@ Ready ✓
             </p>
 
             <h3 className="mt-2 text-xl font-bold">
-              <CountUp
-                end={margin}
-                decimals={1}
-                suffix="%"
-                duration={2}
-              />
+              {hasData ? (
+
+                <CountUp
+                  end={margin}
+                  decimals={1}
+                  suffix="%"
+                  duration={2}
+                />
+
+              ) : (
+
+                <span className="text-slate-300">—</span>
+
+              )}
             </h3>
 
           </div>
@@ -416,7 +453,9 @@ Ready ✓
 
     <span className="font-bold">
 
-      {healthScore >= 85
+      {!hasData
+        ? "No Report Uploaded"
+        : healthScore >= 85
         ? "Excellent"
         : healthScore >= 70
         ? "Good"
@@ -425,7 +464,7 @@ Ready ✓
         : "Needs Attention"}
 
       {" "}
-      ({healthScore}%)
+      {hasData && <> ({healthScore}%)</>}
 
     </span>
 
@@ -435,23 +474,26 @@ Ready ✓
 
     <motion.div
       initial={{ width: 0 }}
-      animate={{ width: `${healthScore}%` }}
+      animate={{
+        width: hasData
+          ? `${healthScore}%`
+          : "0%"
+      }}
       transition={{
         duration: 1.8,
         ease: "easeOut",
       }}
-      className="
-        absolute
-        left-0
-        top-0
-        h-full
-        rounded-full
-        bg-gradient-to-r
-        from-cyan-300
-        via-sky-400
-        to-emerald-400
-        shadow-[0_0_14px_rgba(34,211,238,.45)]
-      "
+      className={`
+      absolute
+      left-0
+      top-0
+      h-full
+      rounded-full
+      bg-gradient-to-r
+      ${hasData
+        ? "from-cyan-300 via-sky-400 to-emerald-400"
+        : "from-slate-400 to-slate-500"}
+      `}
     />
 
   </div>
@@ -467,7 +509,7 @@ Ready ✓
             </p>
 
             <h3 className="mt-2 font-bold text-emerald-300">
-              Ready
+              {hasData ? "Ready" : "Waiting"}
             </h3>
 
           </div>
@@ -479,36 +521,77 @@ Ready ✓
             </p>
 
             <h3 className="mt-2 font-bold text-cyan-300">
-              Generated
+              {hasData ? "Generated" : "Not Available"}
             </h3>
 
           </div>
 
         </div>
 
-        <div className="mt-6 rounded-2xl border border-emerald-300/20 bg-emerald-500/10 p-5">
+        <div className={`
+        mt-6
+        rounded-2xl
+        p-5
+        border
+        ${
+            hasData
+                ? "border-emerald-300/20 bg-emerald-500/10"
+                : "border-yellow-300/20 bg-yellow-500/10"
+        }
+        `}>
 
           <div className="flex items-start gap-3">
 
-            <ShieldCheck
-              size={22}
-              className="mt-0.5 text-emerald-300"
-            />
+            <div className="
+            flex
+            h-11
+            w-35
+            items-center
+            justify-center
+            rounded-xl
+            bg-yellow-400/15
+            ">
 
-            <div>
-
-              <p className="font-semibold">
-                Analysis Complete
-              </p>
-
-              <p className="mt-1 text-sm text-blue-100">
-
-                Executive report, AI recommendations,
-                and forecast are ready.
-
-              </p>
+                <Upload
+                    size={20}
+                    className="text-yellow-300"
+                />
 
             </div>
+              {hasData ? (
+
+              <>
+                <p className="font-semibold">
+                  Analysis Complete
+                </p>
+
+                <p className="mt-1 text-sm text-blue-100">
+
+                  Executive report, AI recommendations,
+                  and forecast are ready.
+
+                </p>
+              </>
+
+              ) : (
+
+              <>
+                <p className="font-semibold">
+                  Awaiting Upload
+                </p>
+
+                <p className="mt-0 text-sm text-blue-100">
+
+                  Upload a financial report to unlock
+                  AI insights, executive summaries,
+                  forecasts, recommendations and
+                  intelligent financial analysis.
+
+                </p>
+
+              </>
+
+              )}
 
           </div>
 

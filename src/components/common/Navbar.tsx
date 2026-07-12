@@ -303,7 +303,7 @@ export default function Navbar() {
 
                       <p className="text-xs text-slate-500">
 
-                        Financial intelligence
+                        AI-Powered Financial intelligence
 
                       </p>
 
