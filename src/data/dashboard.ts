@@ -1,19 +1,19 @@
 export const dashboardData = {
   revenue: {
     title: "Revenue",
-    value: "₱1,250,000",
+    value: "$1,250,000",
     change: "+12.4%",
     positive: true,
   },
   expenses: {
     title: "Expenses",
-    value: "₱820,000",
+    value: "$820,000",
     change: "-3.1%",
     positive: false,
   },
   profit: {
     title: "Net Profit",
-    value: "₱430,000",
+    value: "$430,000",
     change: "+24.6%",
     positive: true,
   },
