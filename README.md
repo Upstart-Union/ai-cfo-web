@@ -1,6 +1,8 @@
 # Below is the other repository for this project:
 https://github.com/Upstart-Union/ai-cfo-api
 
+# NOTE
+This was built with using AMD Notebook Team.
 
 # AI CFO
 
