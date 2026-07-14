@@ -2,7 +2,7 @@
 https://github.com/Upstart-Union/ai-cfo-api
 
 # NOTE
-This was built with using AMD Notebook Team.
+This was built with AMD Notebook Team for note-taking decisions and such.
 
 # AI CFO
 
